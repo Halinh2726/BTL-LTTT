@@ -3,7 +3,7 @@
 
 # Kiểm tra Tính Trực Giao Đầy Đủ của Mã Vòng Tuyến Tính
 
-Dự án này cung cấp một bộ thư viện lập trình để xử lý các đối tượng toán học trong lý thuyết mã hóa kênh, cụ thể là trên trường hữu hạn $GF(2)$. Mục tiêu chính là kiểm tra xem một mã vòng tuyến tính $C(n, k, d_0)$ cho trước có khả năng trực giao đầy đủ hay không dựa trên đa thức kiểm tra $h(x)$.
+Dự án này cung cấp một bộ thư viện lập trình để xử lý các đối tượng toán học trong lý thuyết mã hóa kênh, cụ thể là trên trường hữu hạn $GF(2)$. Mục tiêu chính là kiểm tra xem một mã vòng tuyến tính $C(i, k, d_0)$ cho trước có khả năng trực giao đầy đủ hay không dựa trên đa thức kiểm tra $h(x)$.
 
 ## Cấu trúc Thành phần
 
@@ -31,7 +31,7 @@ Hệ thống được thiết kế theo hướng đối tượng với các lớ
 ## Chức năng Chính
 
 Chương trình tập trung vào bài toán:
-**Xét mã vòng tuyến tính $C(n, k, d_0)$ có đa thức kiểm tra $h(x)$ cho trước. Kiểm tra xem $C$ có phải mã vòng tuyến tính có khả năng trực giao đầy đủ?**
+**Xét mã vòng tuyến tính $C(i, k, d_0)$ có đa thức kiểm tra $h(x)$ cho trước. Kiểm tra xem $C$ có phải mã vòng tuyến tính có khả năng trực giao đầy đủ?**
 
 ### Thuật toán kiểm tra
 1. Xác định tham số $n, k$ từ đa thức $h(x)$.
