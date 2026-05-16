@@ -34,7 +34,7 @@ Chương trình tập trung vào bài toán:
 **Xét mã vòng tuyến tính $C(i, k, d_0)$ có đa thức kiểm tra $h(x)$ cho trước. Kiểm tra xem $C$ có phải mã vòng tuyến tính có khả năng trực giao đầy đủ?**
 
 ### Thuật toán kiểm tra
-1. Xác định tham số $n, k$ từ đa thức $h(x)$.
+1. Xác định tham số $i, k$ từ đa thức $h(x)$.
 2. Xây dựng ma trận kiểm tra hoặc tập hợp các phương trình kiểm tra từ $h(x)$.
 3. Tìm hệ thống các phương trình trực giao đối với từng ký hiệu thông tin.
 4. Kết luận về khả năng giải mã đa số (Majority Logic Decoding) dựa trên tính trực giao đầy đủ.
