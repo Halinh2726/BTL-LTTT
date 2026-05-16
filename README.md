@@ -3,7 +3,7 @@
 
 # Kiểm tra Tính Trực Giao Đầy Đủ của Mã Vòng Tuyến Tính
 
-Dự án này cung cấp một bộ thư viện lập trình để xử lý các đối tượng toán học trong lý thuyết mã hóa kênh, cụ thể là trên trường hữu hạn $GF(2)$. Mục tiêu chính là kiểm tra xem một mã vòng tuyến tính $C(l, k, d_0)$ cho trước có khả năng trực giao đầy đủ hay không dựa trên đa thức kiểm tra $h(x)$.
+Dự án này cung cấp một bộ thư viện lập trình để xử lý các đối tượng toán học trong lý thuyết mã hóa kênh, cụ thể là trên trường hữu hạn GF(2). Mục tiêu chính là kiểm tra xem một mã vòng tuyến tính $C(l, k, d_0)$ cho trước có khả năng trực giao đầy đủ hay không dựa trên đa thức kiểm tra $h(x)$.
 
 ## Cấu trúc Thành phần
 
@@ -11,7 +11,7 @@ Hệ thống được thiết kế theo hướng đối tượng với các lớ
 
 ### 1. Lớp `Bit`
 - Quản lý các đơn vị dữ liệu nhị phân (0 và 1).
-- Định nghĩa các phép toán cơ bản: `AND`, `OR`, `XOR` (tương ứng với phép cộng trên $GF(2)$).
+- Định nghĩa các phép toán cơ bản: `AND`, `OR`, `XOR` (tương ứng với phép cộng trên GF(2)).
 
 ### 2. Lớp `BinaryVector` (Vector Nhị Phân)
 - Đại diện cho các từ mã (codewords).
