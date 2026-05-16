@@ -18,10 +18,10 @@ Hệ thống được thiết kế theo hướng đối tượng với các lớ
 - Hỗ trợ các phép toán vector: cộng vector, tích vô hướng, dịch vòng (cyclic shift).
 - Lưu trữ và thao tác trên danh sách các đối tượng `Bit`.
 
-### 3. Lớp `PolynomialGF2` (Đa thức trên $GF(2)$)
+### 3. Lớp `PolynomialGF2` (Đa thức trên GF(2))
 - Xử lý các đa thức có hệ số thuộc trường nhị phân.
 - Các phép toán quan trọng:
-  - Cộng/Trừ đa thức (giống nhau trên $GF(2)$).
+  - Cộng/Trừ đa thức (giống nhau trên GF(2)).
   - Nhân đa thức.
   - Chia đa thức (tìm dư và thương) - Rất quan trọng để kiểm tra tính chia hết của $x^n - 1$ cho $g(x)$ hoặc $h(x)$.
 
