@@ -67,9 +67,8 @@ Bản này phù hợp khi:
 
 Đây là phiên bản rút gọn, chỉ tập trung vào chức năng chính:
 
-- nhập dữ liệu từ `stdin`
+- nhập dữ liệu từ `stdin` hoặc file `input.txt` bất kì
 - kiểm tra đa thức
-- Hoặc file `input.txt` bất kì
 - sinh ma trận kiểm tra `H`
 - sinh mã đối ngẫu
 - kiểm tra trực giao đầy đủ
