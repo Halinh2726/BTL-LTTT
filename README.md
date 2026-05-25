@@ -69,6 +69,7 @@ Bản này phù hợp khi:
 
 - nhập dữ liệu từ `stdin`
 - kiểm tra đa thức
+- Hoặc file `input.txt` bất kì
 - sinh ma trận kiểm tra `H`
 - sinh mã đối ngẫu
 - kiểm tra trực giao đầy đủ
