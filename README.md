@@ -2,330 +2,498 @@
 
 ## Kiểm tra Tính Trực Giao Đầy Đủ của Mã Vòng Tuyến Tính trên GF(2)
 
-Dự án này xây dựng một hệ thống mô phỏng và kiểm tra mã vòng tuyến tính (Cyclic Linear Codes) trên trường hữu hạn GF(2), phục vụ cho học tập và nghiên cứu môn Lý thuyết thông tin và Mã hóa kênh.
+Dự án xây dựng chương trình kiểm tra **tính trực giao đầy đủ** của mã vòng tuyến tính trên trường GF(2), phục vụ học tập môn **Lý thuyết thông tin và Mã hóa kênh**.
 
-Chương trình được viết bằng ngôn ngữ C++ theo hướng lập trình hướng đối tượng (OOP), cho phép:
+Dự án có 2 phiên bản chương trình:
 
-* Xây dựng và thao tác trên các đối tượng toán học của mã hóa kênh.
-* Sinh ma trận kiểm tra H.
-* Sinh không gian mã đối ngẫu (Dual Codewords).
-* Tìm hệ phương trình trực giao độc lập.
-* Kiểm tra khả năng trực giao đầy đủ.
-* Mô phỏng thuật toán Majority Logic Decoding.
-* Tương tác với người dùng bằng hệ thống Quiz mô phỏng giải mã.
+| File | Mục đích |
+|---|---|
+| `Fully_orthogonalizable.cpp` | Bản đầy đủ **có menu**, dùng để học, xem từng bước, in thông tin mã, làm quiz và mô phỏng kiến thức |
+| `Fully_orthogonalizable_only.cpp` | Bản rút gọn **không có menu**, dùng để chạy nhanh, test input/output, nộp bài hoặc chạy bằng file input có sẵn |
 
 ---
 
-# 1. Tổng quan Lý thuyết
+# 1. Tổng quan
 
-Xét mã vòng tuyến tính:
+Chương trình kiểm tra mã vòng tuyến tính:
 
-C(l, k, d₀)
+```text
+C(l, k, d0)
+```
 
 Trong đó:
 
-* l: chiều dài từ mã.
-* k: số bit thông tin.
-* d₀: khoảng cách thiết kế.
+- `l`: chiều dài từ mã
+- `k`: số bit thông tin
+- `d0`: khoảng cách thiết kế
+- `r = l - k`: số bit kiểm tra
+- `h(x)`: đa thức kiểm tra
 
-Mã vòng được đặc trưng bởi đa thức kiểm tra:
+Mục tiêu chính của chương trình là kiểm tra xem mã vòng có **hệ phương trình trực giao đầy đủ** hay không.
 
-h(x)
-
-Chương trình kiểm tra xem mã có:
-
-* khả năng trực giao đầy đủ,
-* và có thể áp dụng Majority Logic Decoding hay không.
+Nếu có hệ trực giao đầy đủ, mã có thể được dùng trong thuật toán **Majority Logic Decoding**.
 
 ---
 
-# 2. Kiến trúc Hệ thống
+# 2. Phân chia phiên bản chương trình
 
-Hệ thống được xây dựng theo mô hình OOP với các lớp sau.
+## 2.1. File `Fully_orthogonalizable.cpp` - bản có menu
+
+Đây là phiên bản đầy đủ hơn, phù hợp để học và trình bày báo cáo.
+
+Phiên bản này có:
+
+- menu tương tác
+- nhập dữ liệu nhiều lần
+- kiểm tra thông số mã vòng
+- in ma trận kiểm tra `H`
+- in chi tiết từng bước kiểm tra trực giao
+- kiểm tra kết quả có trực giao đầy đủ hay không
+- hệ thống câu hỏi quiz
+- mô phỏng kiến thức Majority Logic Decoding
+- giải thích một số bước xử lý
+
+Bản này phù hợp khi:
+
+- cần học lý thuyết
+- cần xem từng bước chương trình chạy
+- cần trình bày với giáo viên
+- cần minh họa thuật toán
+- cần làm báo cáo/bài tập lớn
 
 ---
 
-# 2.1. Lớp Bit
+## 2.2. File `Fully_orthogonalizable_only.cpp` - bản không có menu
 
-Quản lý bit nhị phân trong trường GF(2).
+Đây là phiên bản rút gọn, chỉ tập trung vào chức năng chính:
 
-## Chức năng
+- nhập dữ liệu từ `stdin`
+- kiểm tra đa thức
+- sinh ma trận kiểm tra `H`
+- sinh mã đối ngẫu
+- kiểm tra trực giao đầy đủ
+- in kết luận cuối cùng
 
-* Phép cộng XOR
-* Phép nhân AND
-* Phép OR logic
+Bản này phù hợp khi:
 
-## Các phép toán
+- cần chạy nhanh
+- cần test bằng file input có sẵn
+- cần chạy nhiều bộ test bằng cách đổi nội dung `input.txt`
+- cần dùng cho chấm tự động
+- không cần giao diện menu
+- không cần quiz
+- không cần phần giải thích tương tác
 
-Trong GF(2):
+---
 
-a + b = XOR
+# 3. So sánh hai file
 
-a * b = AND
+| Nội dung | `Fully_orthogonalizable.cpp` | `Fully_orthogonalizable_only.cpp` |
+|---|---|---|
+| Có menu | Có | Không |
+| Nhập dữ liệu nhiều lần | Có | Không |
+| In thông số mã vòng | Có | Không đầy đủ |
+| In ma trận kiểm tra H | Có | Có hàm in, nhưng không gọi mặc định |
+| Kiểm tra trực giao đầy đủ | Có | Có |
+| In chi tiết các bước | Có | Có hỗ trợ qua tham số `show_steps`, nhưng mặc định không bật |
+| Quiz học tập | Có | Không |
+| Majority Logic Decoding | Có phần mô phỏng trong quiz | Không |
+| Phù hợp để học | Rất phù hợp | Ít phù hợp hơn |
+| Phù hợp để nộp/chạy test | Không tối ưu bằng | Phù hợp hơn |
+| Chạy bằng file input có sẵn | Có thể nhưng không thuận tiện do có menu | Rất phù hợp |
+| Mức độ kiến thức thể hiện | Nhiều hơn | Ít hơn, tập trung thuật toán chính |
+
+---
+
+# 4. Kiến thức có trong bản có menu
+
+File `Fully_orthogonalizable.cpp` không chỉ kiểm tra kết quả mà còn bổ sung nhiều phần kiến thức hơn.
+
+## 4.1. Kiến thức về mã vòng
+
+Chương trình cho phép xem:
+
+- chiều dài từ mã `l`
+- số bit thông tin `k`
+- khoảng cách thiết kế `d0`
+- số bit kiểm tra `r = l - k`
+- đa thức kiểm tra `h(x)`
+- ma trận kiểm tra `H`
+
+---
+
+## 4.2. Kiến thức về ma trận kiểm tra H
+
+Từ đa thức `h(x)`, chương trình:
+
+- đảo hệ số của `h(x)`
+- tạo hàng đầu tiên của ma trận `H`
+- dịch vòng để tạo các hàng tiếp theo
 
 Ví dụ:
 
-1 + 1 = 0
-
-1 * 1 = 1
-
----
-
-# 2.2. Lớp BinaryVector
-
-Đại diện cho vector nhị phân (codeword).
-
-Ví dụ:
-
-1011010
-
-## Chức năng
-
-* Cộng vector trên GF(2)
-* So sánh vector
-* Dịch vòng phải
-* Dịch vòng trái
-* Kiểm tra vector 0
-* Tính tích vô hướng (dot product)
-
-## Các phép toán hỗ trợ
-
-### Cộng vector
-
-v₁ + v₂
-
-### Dịch vòng
-
-Cyclic Shift Left / Right
-
-### Tích vô hướng
-
-v₁ · v₂
-
-được sử dụng trong thuật toán giải mã đa số.
-
----
-
-# 2.3. Lớp Polynomial
-
-Đại diện cho đa thức trên GF(2).
-
-Ví dụ:
-
-h(x) = 1 + x + x³
-
-được lưu dưới dạng:
-
-[1, 1, 0, 1]
-
-## Các chức năng
-
-* Cộng đa thức
-* Nhân đa thức
-* Chia đa thức
-* Tính phần dư modulo
-* Kiểm tra đa thức 0
-* Sinh đa thức:
-
-x^l + 1
-
-## Các phép toán
-
-### Cộng đa thức
-
-Trong GF(2):
-
-1 + 1 = 0
-
-nên phép cộng và phép trừ là giống nhau.
-
-### Nhân đa thức
-
-Sử dụng quy tắc nhân thông thường nhưng modulo 2.
-
-### Chia đa thức
-
-Dùng để kiểm tra:
-
-(x^l + 1) mod h(x)
-
-Nếu phần dư bằng 0:
-
-=> h(x) là đa thức hợp lệ của mã vòng.
-
----
-
-# 2.4. Lớp CyclicCode
-
-Lớp trung tâm của hệ thống.
-
-Quản lý:
-
-* thông số mã vòng,
-* ma trận kiểm tra H,
-* mã đối ngẫu,
-* hệ trực giao,
-* majority decoding.
-
-## Thuộc tính chính
-
-* l
-* k
-* d₀
-* r = l - k
-* h(x)
-* parity-check matrix H
-* dual codewords
-
----
-
-# 3. Các Thuật toán Được Hỗ trợ
-
----
-
-# 3.1. Sinh Ma trận Kiểm tra H
-
-Từ đa thức kiểm tra h(x):
-
-* đảo hệ số,
-* sinh hàng đầu tiên,
-* dịch vòng để tạo các hàng tiếp theo.
-
-Ví dụ:
-
+```text
 1011000
 0101100
 0010110
+```
 
 ---
 
-# 3.2. Sinh Mã Đối Ngẫu
+## 4.3. Kiến thức về mã đối ngẫu
 
-Sinh tất cả tổ hợp XOR của các hàng trong H.
+Chương trình sinh các từ mã đối ngẫu bằng cách lấy tất cả tổ hợp XOR của các hàng trong `H`.
 
 Nếu:
 
+```text
 r = l - k
+```
 
-thì số lượng từ mã đối ngẫu là:
+thì số lượng từ mã đối ngẫu tối đa là:
 
+```text
 2^r
-
-Chương trình sử dụng kỹ thuật tối ưu bằng:
-
-__builtin_ctzll()
-
-để tránh tính toán lại toàn bộ vector.
+```
 
 ---
 
-# 3.3. Kiểm tra Hệ Trực Giao Đầy Đủ
+## 4.4. Kiến thức về trực giao đầy đủ
 
-Chương trình sử dụng Backtracking để tìm:
+Chương trình kiểm tra:
 
-J = d₀ - 1
+```text
+J = d0 - 1
+```
 
-phương trình trực giao độc lập.
+Sau đó tìm `J` phương trình kiểm tra trực giao thỏa mãn:
 
-Điều kiện:
+- cùng chứa bit tại vị trí đang xét
+- các vị trí còn lại không bị trùng nhau
+- tạo thành hệ phương trình trực giao độc lập
 
-* các vector phải chứa bit tại vị trí đang xét,
-* các bit còn lại không được giao nhau.
-
-Nếu tìm được:
-
-=> mã có khả năng trực giao đầy đủ.
+Nếu tìm được hệ như vậy, mã được xem là có khả năng trực giao đầy đủ.
 
 ---
 
-# 3.4. Majority Logic Decoding
+## 4.5. Kiến thức về Majority Logic Decoding
 
-Chương trình mô phỏng giải mã đa số:
+Bản có menu có thêm phần quiz mức khó, mô phỏng giải mã đa số.
 
-* tính các tổng syndrome,
-* đếm số phương trình cho kết quả 1,
-* voting để xác định bit lỗi.
+Ý tưởng:
+
+- lấy vector nhận được `R`
+- nhân với từng phương trình trực giao
+- tính các tổng kiểm tra `A_j`
+- đếm số lượng `A_j = 1`
+- quyết định bit lỗi theo đa số
 
 Nếu:
 
+```text
 count_1 > J / 2
+```
 
-=> bit lỗi bằng 1.
+thì kết luận bit đang xét có lỗi.
 
-Ngược lại:
-
-=> bit lỗi bằng 0.
-
----
-
-# 3.5. Early Exit
-
-Hệ thống dừng ngay khi tìm thấy:
-
-* một hệ trực giao hợp lệ,
-* hoặc xác định chắc chắn không tồn tại.
-
-Điều này giúp giảm thời gian chạy đáng kể.
+Ngược lại, bit đó được xem là không lỗi.
 
 ---
 
-# 3.6. Quiz Học tập Tương tác
+## 4.6. Quiz học tập
 
-Bao gồm 3 mức độ:
+Bản có menu có phần câu hỏi trắc nghiệm với 3 mức:
 
-* Dễ
-* Trung bình
-* Khó
+| Mức | Nội dung |
+|---|---|
+| Dễ | Kích thước ma trận H, lý thuyết sửa lỗi |
+| Trung bình | Tìm bộ trực giao, dịch vòng |
+| Khó | Mô phỏng Majority Logic Decoding |
 
-Các câu hỏi liên quan:
-
-* kích thước ma trận H,
-* trực giao,
-* dịch vòng,
-* majority decoding,
-* xác định lỗi.
+Phần này giúp người học kiểm tra lại kiến thức sau khi chạy chương trình.
 
 ---
 
-# 4. Định dạng Input
+# 5. Kiến thức có trong bản không menu
 
-Dữ liệu nhập gồm 2 dòng.
+File `Fully_orthogonalizable_only.cpp` giữ lại phần lõi thuật toán.
+
+Các kiến thức chính gồm:
+
+- biểu diễn bit trên GF(2)
+- biểu diễn vector nhị phân
+- biểu diễn đa thức trên GF(2)
+- kiểm tra đa thức hợp lệ
+- sinh ma trận kiểm tra `H`
+- sinh mã đối ngẫu
+- dùng backtracking tìm hệ trực giao
+- kết luận mã có trực giao đầy đủ hay không
+
+Bản này không có:
+
+- menu
+- quiz
+- mô phỏng Majority Logic Decoding
+- phần in thông số mã vòng chi tiết
+- phần hướng dẫn tương tác cho người dùng
+
+Vì vậy, bản không menu phù hợp với mục đích **chạy thuật toán**, còn bản có menu phù hợp với mục đích **học và trình bày kiến thức**.
+
+---
+
+# 6. Cấu trúc lớp trong chương trình
+
+## 6.1. Lớp `Bit`
+
+Biểu diễn một bit trong GF(2).
+
+Hỗ trợ:
+
+- phép cộng XOR
+- phép nhân AND
+- phép cộng gán XOR
+
+Trong GF(2):
+
+```text
+1 + 1 = 0
+1 * 1 = 1
+```
+
+---
+
+## 6.2. Lớp `BinaryVector`
+
+Biểu diễn vector nhị phân.
+
+Ví dụ:
+
+```text
+1011010
+```
+
+Hỗ trợ:
+
+- cộng vector trên GF(2)
+- so sánh vector
+- dịch vòng phải
+- kiểm tra vector 0
+- in vector
+
+---
+
+## 6.3. Lớp `Polynomial`
+
+Biểu diễn đa thức trên GF(2).
+
+Ví dụ:
+
+```text
+h(x) = 1 + x + x^3
+```
+
+được nhập dưới dạng:
+
+```text
+1 1 0 1
+```
+
+Hỗ trợ:
+
+- chuẩn hóa đa thức
+- lấy bậc đa thức
+- kiểm tra đa thức 0
+- chia lấy dư
+- sinh đa thức `x^l + 1`
+
+---
+
+## 6.4. Lớp `CyclicCode`
+
+Đây là lớp chính của chương trình.
+
+Quản lý:
+
+- `l`
+- `k`
+- `d0`
+- `r`
+- ma trận kiểm tra `H`
+- các từ mã đối ngẫu
+- thuật toán kiểm tra trực giao đầy đủ
+
+Riêng bản có menu còn lưu thêm:
+
+- đa thức `h(x)`
+- `J = d0 - 1`
+- các hàm in thông tin
+- hàm quiz
+
+---
+
+# 7. Thuật toán chính
+
+## 7.1. Kiểm tra đa thức hợp lệ
+
+Chương trình kiểm tra:
+
+```text
+(x^l + 1) mod h(x) = 0
+```
+
+Nếu chia hết, đa thức hợp lệ để sinh mã vòng.
+
+Nếu không chia hết, chương trình báo lỗi.
+
+---
+
+## 7.2. Sinh ma trận kiểm tra H
+
+Các bước:
+
+1. Đảo hệ số của `h(x)`
+2. Đưa vào hàng đầu tiên của `H`
+3. Dịch vòng phải để sinh các hàng tiếp theo
+4. Sinh tổng cộng `r = l - k` hàng
+
+---
+
+## 7.3. Sinh mã đối ngẫu
+
+Chương trình sinh các tổ hợp XOR của các hàng trong `H`.
+
+Để tối ưu, chương trình dùng:
+
+```cpp
+__builtin_ctzll(i)
+```
+
+Hàm này giúp xác định bit thay đổi khi duyệt tổ hợp, tránh phải XOR lại từ đầu.
+
+---
+
+## 7.4. Lọc ứng viên trực giao
+
+Chương trình chỉ chọn các vector đối ngẫu có bit tại vị trí đang xét bằng `1`.
+
+Trong code hiện tại, vị trí được xét là:
+
+```text
+pos = l - 1
+```
+
+Sau đó chương trình loại các vector trùng nhau.
+
+---
+
+## 7.5. Backtracking tìm hệ trực giao
+
+Chương trình chọn `J` vector sao cho:
+
+- mỗi vector đều chứa bit tại `pos`
+- các vị trí khác `pos` không bị trùng nhau
+- đủ `J = d0 - 1` phương trình
+
+Nếu chọn được, kết luận mã có trực giao đầy đủ.
+
+---
+
+# 8. Định dạng input
+
+Cả hai phiên bản đều dùng cùng định dạng input.
 
 ## Dòng 1
 
+```text
 l k d0
+```
 
 Ví dụ:
 
-7 4 3
+```text
+7 3 4
+```
 
 ## Dòng 2
 
-Các hệ số của h(x) theo thứ tự tăng dần.
+Nhập `k + 1` hệ số của `h(x)` theo thứ tự từ bậc thấp đến bậc cao.
 
 Ví dụ:
 
-1 1 0 1 1
+```text
+1 0 1 1
+```
 
 tương ứng:
 
-h(x) = 1 + x + x³ + x⁴
+```text
+h(x) = 1 + x^2 + x^3
+```
+
+Lưu ý: Trong chương trình này, code đang kiểm tra bậc của `h(x)` phải bằng `k`.
 
 ---
 
-# 5. Biên dịch và Thực thi
+# 9. Biên dịch
 
-## Biên dịch
-Không menu
+## 9.1. Biên dịch bản có menu
+
+```bash
+g++ -std=c++11 Fully_orthogonalizable.cpp -o CyclicDecoderMenu
+```
+
+Nếu dùng `make_unique`, có thể cần C++14:
+
+```bash
+g++ -std=c++14 Fully_orthogonalizable.cpp -o CyclicDecoderMenu
+```
+
+---
+
+## 9.2. Biên dịch bản không menu
+
 ```bash
 g++ -std=c++11 Fully_orthogonalizable_only.cpp -o CyclicDecoder
 ```
-Có menu
+
+---
+
+# 10. Chạy chương trình
+
+## 10.1. Chạy bản có menu
+
+Linux/macOS:
+
 ```bash
-g++ -std=c++11 Fully_orthogonalizable.cpp -o CyclicDecoder
+./CyclicDecoderMenu
 ```
 
-## Chạy chương trình
+Windows:
+
+```bash
+CyclicDecoderMenu.exe
+```
+
+Sau khi chạy, chương trình hiện menu:
+
+```text
+1. Nhap cac he so l, k, d0 va va he so cua h(x)
+2. Kiem tra cac he so l, k, d0 va va he so cua h(x)
+3. In ket qua (Co truc giao doc lap khong?)
+4. In chi tiet cac buoc giai
+5. Cau hoi
+6. Thoat chuong trinh
+```
+
+Nên dùng bản này khi muốn học vì có nhiều phần giải thích và kiến thức hơn.
+
+---
+
+## 10.2. Chạy bản không menu
+
+Bản không menu có thể chạy theo 2 cách.
+
+### Cách 1: Nhập trực tiếp từ bàn phím
 
 Linux/macOS:
 
@@ -339,184 +507,240 @@ Windows:
 CyclicDecoder.exe
 ```
 
----
+Sau đó nhập trực tiếp input:
 
-# 6. Chạy bằng File Input
+```text
+7 3 4
+1 0 1 1
+```
 
-Ví dụ:
+### Cách 2: Chạy bằng file input có sẵn
+
+Tạo file `input.txt`:
+
+```text
+7 3 4
+1 0 1 1
+```
+
+Sau đó chạy:
+
+Linux/macOS:
 
 ```bash
 ./CyclicDecoder < input.txt
 ```
 
-Ví dụ nội dung file:
+Windows CMD:
+
+```bash
+CyclicDecoder.exe < input.txt
+```
+
+Cách này rất phù hợp khi đã chuẩn bị sẵn dữ liệu test, muốn chạy lại nhiều lần, hoặc dùng để kiểm tra chương trình theo kiểu input/output chuẩn.
+
+Nên dùng bản này khi chỉ cần kết quả cuối cùng hoặc muốn chạy với file input có sẵn.
+
+---
+
+# 11. Ví dụ chạy bản không menu
+
+Có thể nhập trực tiếp hoặc lưu dữ liệu vào file `input.txt`.
+
+Nội dung `input.txt`:
 
 ```text
-7 4 3
-1 1 0 1 1
+7 3 4
+1 0 1 1
+```
+
+Chạy chương trình:
+
+```bash
+./CyclicDecoder < input.txt
+```
+
+Output có dạng:
+
+```text
+=> KET LUAN CUOI CUNG: Ma vong CO kha nang truc giao day du.
+```
+
+hoặc:
+
+```text
+=> KET LUAN CUOI CUNG: Ma vong KHONG co kha nang truc giao day du.
 ```
 
 ---
 
-# 7. Output
+# 12. Ví dụ chạy bản có menu
 
-## Trường hợp thành công
+Sau khi chạy:
 
-```text
-=> KET LUAN: Ma vong CO kha nang truc giao day du.
+```bash
+./CyclicDecoderMenu
 ```
 
-## Trường hợp thất bại
+Chọn:
 
 ```text
-=> KET LUAN: Ma vong KHONG co kha nang truc giao day du.
+1
 ```
+
+để nhập dữ liệu.
+
+Sau đó nhập:
+
+```text
+7 3 4
+1 0 1 1
+```
+
+Có thể chọn:
+
+```text
+2
+```
+
+để in thông tin mã vòng và ma trận H.
+
+Có thể chọn:
+
+```text
+3
+```
+
+để xem kết luận mã có trực giao đầy đủ không.
+
+Có thể chọn:
+
+```text
+4
+```
+
+để xem chi tiết các bước kiểm tra.
+
+Có thể chọn:
+
+```text
+5
+```
+
+để làm câu hỏi quiz.
 
 ---
 
-# 8. Validation và Xử lý Ngoại lệ
+# 13. Các thông báo lỗi
 
-Hệ thống kiểm tra đầy đủ dữ liệu đầu vào.
-
-## 8.1. Đa thức toàn 0
-
-```text
-[LOI] h(x) la da thuc toan 0
-```
-
----
-
-## 8.2. Sai bậc đa thức
+## 13.1. Sai bậc đa thức
 
 ```text
 [LOI] Bac cua h(x) phai bang k = ...
 ```
 
+Nguyên nhân: đa thức nhập vào sau khi bỏ các hệ số 0 ở cuối có bậc không bằng `k`.
+
 ---
 
-## 8.3. Không sinh được mã vòng
+## 13.2. Đa thức không hợp lệ với mã vòng
 
 ```text
-[LOI] (x^l + 1) khong chia het cho h(x)
+[LOI] (x^l + 1) khong chia het cho h(x). Ma khong hop le!
 ```
+
+Nguyên nhân: `h(x)` không chia hết `x^l + 1`.
 
 ---
 
-## 8.4. Chưa nhập dữ liệu
+## 13.3. Chưa nhập dữ liệu
+
+Chỉ có trong bản menu:
 
 ```text
-[CANH BAO] Ban chua nhap du lieu!
+[CANH BAO] Ban chua nhap du lieu! Vui long chon Menu 1 truoc.
 ```
+
+Nguyên nhân: người dùng chọn kiểm tra/in kết quả trước khi nhập mã vòng.
 
 ---
 
-# 9. Độ phức tạp Thuật toán
+# 14. Độ phức tạp
 
-## Sinh mã đối ngẫu
+## 14.1. Sinh mã đối ngẫu
 
+```text
 O(2^r)
+```
 
----
+với:
 
-## Backtracking trực giao
-
-O(C(n, J))
-
----
-
-## Chia đa thức
-
-O(l²)
-
----
-
-# 10. Giới hạn Hệ thống
-
-Hệ thống phù hợp cho:
-
-* mã vòng kích thước nhỏ,
-* học tập,
-* mô phỏng thuật toán.
-
-Khi:
-
+```text
 r = l - k
-
-quá lớn:
-
-* số lượng dual codewords tăng theo cấp số mũ,
-* backtracking có thể rất chậm.
-
----
-
-# 11. Công nghệ sử dụng
-
-* C++11
-* STL
-* vector
-* unique_ptr
-* backtracking
-* OOP
-
----
-
-# 12. Các kiến thức Lý thuyết Thông tin được sử dụng
-
-* GF(2)
-* Cyclic Code
-* Dual Code
-* Parity Check Matrix
-* Majority Logic Decoding
-* Syndrome
-* Orthogonal Check Equations
-
----
-
-# 13. Ví dụ Minh họa
-
-Input:
-
-```text
-7 4 3
-1 1 0 1 1
 ```
 
-Output:
+## 14.2. Backtracking tìm hệ trực giao
+
+Độ phức tạp phụ thuộc vào số vector ứng viên và số phương trình cần chọn `J`.
+
+Trong trường hợp xấu có thể rất lớn.
+
+## 14.3. Chia đa thức
 
 ```text
-=> KET LUAN: Ma vong CO kha nang truc giao day du.
+O(l^2)
 ```
 
 ---
 
-# 14. Hướng Phát triển
+# 15. Giới hạn chương trình
 
-Trong tương lai có thể mở rộng:
+Chương trình phù hợp với:
 
-* BCH Code
-* Hamming Code
-* Reed-Solomon
-* Syndrome Decoding
-* GUI Visualization
-* Xuất file phân tích
-* Mô phỏng truyền dẫn có nhiễu
+- mã vòng kích thước nhỏ
+- học tập
+- mô phỏng thuật toán
+- bài tập lớn
+
+Không nên dùng với `r` quá lớn vì số lượng từ mã đối ngẫu tăng rất nhanh:
+
+```text
+2^r
+```
+
+Ví dụ:
+
+```text
+r = 20 => 2^20 từ mã đối ngẫu
+```
 
 ---
 
-# 15. Kết luận
+# 16. Công nghệ sử dụng
 
-Dự án là một mini-framework mô phỏng mã hóa kênh trên GF(2), kết hợp:
+- C++
+- STL
+- vector
+- unique_ptr
+- backtracking
+- lập trình hướng đối tượng
+- GF(2)
+- Cyclic Code
+- Dual Code
+- Majority Logic Decoding
 
-* Toán học mã hóa,
-* Lập trình hướng đối tượng,
-* Giải thuật tổ hợp,
-* Majority Logic Decoding.
+---
 
-Phù hợp cho:
+# 17. Kết luận
 
-* học phần Lý thuyết thông tin,
-* nghiên cứu cơ bản về Coding Theory,
-* mô phỏng thuật toán mã hóa kênh.
+Dự án gồm 2 phiên bản:
+
+- `Fully_orthogonalizable.cpp`: bản học tập đầy đủ, có menu và nhiều kiến thức hơn
+- `Fully_orthogonalizable_only.cpp`: bản tối giản, phù hợp để chạy nhanh, kiểm tra kết quả và chạy bằng file input có sẵn
+
+Bản có menu nên dùng khi cần hiểu thuật toán, xem từng bước và ôn kiến thức.
+
+Bản không menu nên dùng khi chỉ cần nhập dữ liệu và nhận kết luận cuối cùng.
 
 ---
 
