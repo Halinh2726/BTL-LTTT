@@ -316,10 +316,12 @@ h(x) = 1 + x + x³ + x⁴
 # 5. Biên dịch và Thực thi
 
 ## Biên dịch
-
+Không menu
 ```bash
-g++ -std=c++11 main.cpp -o CyclicDecoder
+g++ -std=c++11 Fully_orthogonalizable.cpp -o CyclicDecoder
 ```
+Có menu
+
 
 ## Chạy chương trình
 
