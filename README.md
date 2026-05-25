@@ -318,10 +318,12 @@ h(x) = 1 + x + x³ + x⁴
 ## Biên dịch
 Không menu
 ```bash
-g++ -std=c++11 Fully_orthogonalizable.cpp -o CyclicDecoder
+g++ -std=c++11 Fully_orthogonalizable_only.cpp -o CyclicDecoder
 ```
 Có menu
-
+```bash
+g++ -std=c++11 Fully_orthogonalizable.cpp -o CyclicDecoder
+```
 
 ## Chạy chương trình
 
